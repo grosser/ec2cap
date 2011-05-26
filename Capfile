@@ -81,7 +81,7 @@ namespace :env do
 
   task :install_node do
     run "sudo apt-get install git-core"
-    run "cd /tmp && (rm -rf node || echo 1) && git clone git://github.com/joyent/node.git && cd node && git checkout `git tag | grep 'v[0-9\.]\+' | tail -1` && ./configure && make && sudo make install"
+    run "cd /tmp && (rm -rf node || echo 1) && git clone git://github.com/joyent/node.git && cd node && git checkout v0.4.8  && ./configure && make && sudo make install"
     run "git clone http://github.com/isaacs/npm.git && cd npm && sudo make install"
   end
 

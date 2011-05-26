@@ -59,13 +59,7 @@ namespace :env do
   end
 
   task :setup do
-    run "sudo apt-get update"
-    run "sudo apt-get install git-core sqlite3 libsqlite3-dev build-essential libcurl4-openssl-dev libssl-dev zlib1g-dev libreadline5-dev -y"
-
-    # env hacks
-    put "StrictHostKeyChecking no", "/home/#{user}/.ssh/config" # dont verify hosts
-    put "---\ngem: --no-ri --no-rdoc", "/home/#{user}/.gemrc"
-
+    install_basics
     install_ruby
     install_bundler
     install_nginx
@@ -74,6 +68,21 @@ namespace :env do
     # add project configuration
     run "mkdir -f #{deploy_to}/shared #{deploy_to}/shared/config #{deploy_to}/shared/pids #{deploy_to}/shared/log || echo exist"
     put File.read('config/config.yml'), "#{deploy_to}/shared/config/config.yml"
+  end
+
+  task :install_basics do
+    run "sudo apt-get update"
+    run "sudo apt-get install git-core sqlite3 libsqlite3-dev build-essential libcurl4-openssl-dev libssl-dev zlib1g-dev libreadline5-dev -y"
+
+    # env hacks
+    put "StrictHostKeyChecking no", "/home/#{user}/.ssh/config" # dont verify hosts
+    put "---\ngem: --no-ri --no-rdoc", "/home/#{user}/.gemrc"
+  end
+
+  task :install_node do
+    run "sudo apt-get install git-core"
+    run "cd /tmp && (rm -rf node || echo 1) && git clone git://github.com/joyent/node.git && cd node && git checkout `git tag | grep 'v[0-9\.]\+' | tail -1` && ./configure && make && sudo make install"
+    run "git clone http://github.com/isaacs/npm.git && cd npm && sudo make install"
   end
 
   task :install_bundler do

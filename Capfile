@@ -7,23 +7,16 @@ def ec2_address(input='get')
   end
 end
 
-#set :application, "fototransporter"
 set :user, "ubuntu"
-#set :deploy_to, "/home/#{user}/#{application}"
-#set :public_dir, "#{deploy_to}/current/public"
-
 set :use_sudo, true
 set :runner, "#{user}"
-#set :scm, :git
-#set :repository, "git://github.com/grosser/fotobuckit.git"
-#set :rails_env, "production"
 set :key_pair, "mg-ec2"
-set :ami, 'ami-379ea943'
-#set :ami, 'ami-311f2b45'
+set :ami, 'ami-379ea943' # 11.04
+#set :ami, 'ami-311f2b45' # 10.04
 
 # deploy to ec2
 ssh_options[:keys] = "~/.ssh/ec2/#{key_pair}.pem"
-server ec2_address, :app #, :web, :db, :primary => true
+server ec2_address, :app
 
 namespace :env do
   namespace :server do

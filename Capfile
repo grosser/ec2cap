@@ -103,7 +103,7 @@ namespace :env do
 
   # ree via .deb (faster then rvm)
   task :install_ruby do
-    url = 'http://rubyenterpriseedition.googlecode.com/files/ruby-enterprise_1.8.7-2011.03_i386_ubuntu10.04.deb'
+    url = 'http://rubyenterpriseedition.googlecode.com/files/ruby-enterprise_1.8.7-2011.03_amd64_ubuntu10.04.deb'
     run "which ruby || (cd /tmp && rm -rf ruby-enterprise-1.8.7*  && wget -q #{url}  && sudo dpkg -i /tmp/ruby-enterprise_*)"
   end
 end
